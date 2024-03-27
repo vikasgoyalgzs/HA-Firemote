@@ -171,6 +171,9 @@ class FiremoteCard extends LitElement {
     var appleTVEntities = Object.keys(e.entities).filter(
         (eid) => e.entities[eid].platform === 'apple_tv'
     );
+    var blurayEntities = Object.keys(e.entities).filter(
+        (eid) => e.entities[eid].platform === 'bluray'
+    );
     var rokuEntities = Object.keys(e.entities).filter(
         (eid) => e.entities[eid].platform === 'roku'
     );
@@ -185,6 +188,13 @@ class FiremoteCard extends LitElement {
         return { 'entity': appleTVEntities[0],
                  'device_family': 'apple-tv',
                  'device_type': 'appletv-4k-gen2',
+                 'compatibility_mode': 'default',
+               };
+    }
+    else if (blurayEntities.length > 0) {
+        return { 'entity': blurayEntities[0],
+                 'device_family': 'bluray',
+                 'device_type': 'bluray',
                  'compatibility_mode': 'default',
                };
     }
@@ -206,7 +216,7 @@ class FiremoteCard extends LitElement {
 
   setConfig(config) {
     if (!config.entity) {
-     throw new Error('You need to define an Apple TV, Fire TV, NVIDIA Shield, Roku, Xiaomi Mi, or other Android Debug Bridge entity');
+     throw new Error('You need to define an Apple TV, Panasonic bluray, Fire TV, NVIDIA Shield, Roku, Xiaomi Mi, or other Android Debug Bridge entity');
     }
     this._config = config;
   }
@@ -4384,7 +4394,7 @@ class FiremoteCard extends LitElement {
       var rpb2icon = 'mdi:restart';
       var rpb2id = 'reboot-button';
       var hiddenclass = '';
-      if(this._config.device_family == 'apple-tv') {
+      if(this._config.device_family == 'apple-tv' || this._config.device_family == 'bluray') {
         var lpb4icon = 'mdi:skip-backward';
         var lpb6icon = 'mdi:skip-forward';
         var rpb2icon = 'mdi:magnify';
@@ -4682,6 +4692,12 @@ class FiremoteCard extends LitElement {
     if(clicked.target.id == 'power-button') {
       const state = this.hass.states[this._config.entity];
       const stateStr = state ? state.state : 'off';
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'POWER', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
         if(stateStr != 'off' && stateStr != 'unavailable' && stateStr != 'standby') {
           this.hass.callService("media_player", "turn_off", { entity_id: this._config.entity});
@@ -4741,6 +4757,12 @@ class FiremoteCard extends LitElement {
 
     // Up Button
     if(clicked.target.id == 'up-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'UP', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
         var t = this._config.device_family+"_remote_entity";
         var confname = t.replace(/\-/, "_");
@@ -4761,6 +4783,12 @@ class FiremoteCard extends LitElement {
 
     // Left Button
     if(clicked.target.id == 'left-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'LEFT', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
         var t = this._config.device_family+"_remote_entity";
         var confname = t.replace(/\-/, "_");
@@ -4781,6 +4809,12 @@ class FiremoteCard extends LitElement {
 
     // Center Button
     if(clicked.target.id == 'center-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'SELECT', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
         var t = this._config.device_family+"_remote_entity";
         var confname = t.replace(/\-/, "_");
@@ -4809,6 +4843,12 @@ class FiremoteCard extends LitElement {
 
     // Right Button
     if(clicked.target.id == 'right-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'RIGHT', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
         var t = this._config.device_family+"_remote_entity";
         var confname = t.replace(/\-/, "_");
@@ -4829,6 +4869,12 @@ class FiremoteCard extends LitElement {
 
     // Down Button
     if(clicked.target.id == 'down-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'DOWN', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
         var t = this._config.device_family+"_remote_entity";
         var confname = t.replace(/\-/, "_");
@@ -4885,6 +4931,12 @@ class FiremoteCard extends LitElement {
 
     // Back Button
     if(clicked.target.id == 'back-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'RETURN', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(this._config.device_family == 'apple-tv') {
         this.hass.callService("remote", "send_command", { entity_id: this._config.apple_tv_remote_entity, command: 'menu', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
@@ -4904,6 +4956,12 @@ class FiremoteCard extends LitElement {
 
     // Home Button
     if(clicked.target.id == 'home-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'MLTNAVI', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(this._config.device_family == 'apple-tv') {
         this.hass.callService("remote", "send_command", { entity_id: this._config.apple_tv_remote_entity, command: 'top_menu', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
@@ -4940,6 +4998,12 @@ class FiremoteCard extends LitElement {
 
     // Rewind Button
     if(clicked.target.id == 'rewind-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'REV', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(this._config.device_family == 'apple-tv') {
         this.hass.callService("remote", "send_command", { entity_id: this._config.apple_tv_remote_entity, command: 'skip_backward', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
@@ -4962,10 +5026,12 @@ class FiremoteCard extends LitElement {
 
     // Play/Pause Button
     if(clicked.target.id == 'playpause-button') {
-      if(this._config.device_family == 'apple-tv') {
-        var playpausecommand = 'pause';
-        if(this.hass.states[this._config.entity].state=='paused'){ playpausecommand = 'play'; };
-        this.hass.callService("remote", "send_command", { entity_id: this._config.apple_tv_remote_entity, command: playpausecommand, num_repeats: 1, delay_secs: 0, hold_secs: 0});
+      if(this._config.device_family == 'bluray') {
+        var playpausecommand = 'PAUSE';
+        if(this.hass.states[this._config.entity].state=='paused'){ playpausecommand = 'PLAYBACK'; };
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: playpausecommand, num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(this._config.device_family == 'roku') {
@@ -4986,6 +5052,12 @@ class FiremoteCard extends LitElement {
 
     // Fast Forward Button
     if(clicked.target.id == 'fastforward-button') {
+      if(['bluray'].includes(this._config.device_family)) {
+        var t = this._config.device_family+"_remote_entity";
+        var confname = t.replace(/\-/, "_");
+        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'REV', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        return;
+      }
       if(this._config.device_family == 'apple-tv') {
         this.hass.callService("remote", "send_command", { entity_id: this._config.apple_tv_remote_entity, command: 'skip_forward', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
@@ -5013,10 +5085,8 @@ class FiremoteCard extends LitElement {
 
     // Volume Up Button
     if(clicked.target.id == 'volume-up-button') {
-      if(['apple-tv', 'roku'].includes(this._config.device_family)) {
-        var t = this._config.device_family+"_remote_entity";
-        var confname = t.replace(/\-/, "_");
-        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'volume_up', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+      if(['apple-tv', 'roku', 'bluray'].includes(this._config.device_family)) {
+        this.hass.callService("remote", "send_command", { entity_id: this._config.apple_tv_remote_entity, command: 'volume_up', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(hasATVAssociation) {
@@ -5051,10 +5121,10 @@ class FiremoteCard extends LitElement {
 
     // Volume Down Button
     if(clicked.target.id == 'volume-down-button') {
-      if(['apple-tv', 'roku'].includes(this._config.device_family)) {
+      if(['apple-tv', 'roku', 'bluray'].includes(this._config.device_family)) {
         var t = this._config.device_family+"_remote_entity";
         var confname = t.replace(/\-/, "_");
-        this.hass.callService("remote", "send_command", { entity_id: this._config[confname], command: 'volume_down', num_repeats: 1, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config.apple_tv_remote_entity, command: 'volume_down', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(hasATVAssociation) {
@@ -5527,7 +5597,7 @@ window.customCards.push({
   type: "firemote-card",
   name: "Firemote Card",
   preview: true,
-  description: "Remote control card for Amazon FireTV, Apple TV, Chromecast, NVIDIA Shield, onn., Roku, and Xiaomi devices"
+  description: "Remote control card for Amazon FireTV, Apple TV, Panasonic Bluray, Chromecast, NVIDIA Shield, onn., Roku, and Xiaomi devices"
 });
 
 
@@ -5667,6 +5737,11 @@ class FiremoteCardEditor extends LitElement {
   getMediaPlayerEntityDropdown(optionValue){
     var mediaPlayerEntities = [];
     var heading = '';
+    if(this._config.device_family == 'bluray') {
+      mediaPlayerEntities = this.getMediaPlayerEntitiesByPlatform('bluray');
+      heading = 'Panasonic Bluray Media Player '+ this.translateToUsrLang('Entity');
+      heading = this.hass.config.language == 'he' ? this.translateToUsrLang('Entity') + ' Panasonic Bluray Media Player' : 'Panasonic Bluray Media Player '+ this.translateToUsrLang('Entity');
+    }
     if(this._config.device_family == 'apple-tv') {
       mediaPlayerEntities = this.getMediaPlayerEntitiesByPlatform('apple_tv');
       heading = 'Apple TV Media Player '+ this.translateToUsrLang('Entity');
@@ -5708,6 +5783,32 @@ class FiremoteCardEditor extends LitElement {
     if(this._config.device_family == 'amazon-fire') { return; }
     var blankRemoteEntity = '';
     var remoteEntities = [];
+    var blurayRemoteEntities = this.getRemoteEntitiesByPlatform('bluray');
+     if(this._config.device_family == 'bluray') {
+        var dropdownLabel = this.translateToUsrLang('Associated') + ' Panasonic Bluray Remote ' + this.translateToUsrLang('Entity') + ':';
+        dropdownLabel = this.hass.config.language == 'he' ?  'ישות משויכת ל-' + 'Panasonic Bluray Remote ' : dropdownLabel;
+        if(this._config.apple_tv_remote_entity == '' || typeof this._config.apple_tv_remote_entity == 'undefined') {
+            blankRemoteEntity = html `<option value="" selected> - - - - </option> `;
+        }
+        remoteEntities = this.getRemoteEntitiesByPlatform('bluray');
+        return html`
+              ${dropdownLabel}:<br>
+              <select name="apple_tv_remote_entity" id="apple_tv_remote_entity" style="padding: .6em; font-size: 1em;" .value=${optionValue}
+                @focusout=${this.configChanged}
+                @change=${this.configChanged} >
+                ${blankRemoteEntity}
+                ${remoteEntities.map((eid) => {
+                  if (eid != this._config.apple_tv_remote_entity) {
+                    return html`<option value="${eid}">${this.hass.states[eid].attributes.friendly_name || eid}</option> `;
+                  }
+                  else {
+                    return html`<option value="${eid}" selected>${this.hass.states[eid].attributes.friendly_name || eid}</option> `;
+                  }
+                })}
+              </select>
+            <br>
+            <br>`
+    }
     var appleTVRemoteEntities = this.getRemoteEntitiesByPlatform('apple_tv');
     if(this._config.device_family == 'apple-tv') {
         var dropdownLabel = this.translateToUsrLang('Associated') + ' Apple TV Remote ' + this.translateToUsrLang('Entity') + ':';
@@ -5835,7 +5936,7 @@ class FiremoteCardEditor extends LitElement {
 
 
   getCompatibilityModeDropdown(optionValue, deviceFriendlyName){
-    if(['apple-tv', 'chromecast', 'nvidia-shield', 'onn', 'roku'].includes(this._config.device_family)) { return; }
+    if(['apple-tv', 'chromecast', 'nvidia-shield', 'onn', 'roku', 'bluray'].includes(this._config.device_family)) { return; }
     if(['xiaomi-tv-stick-4k', 'fire_tv_stick_4k_max_second_gen', 'fire_tv_stick_4k_second_gen'].includes(this._config.device_type)) { return; }
     var heading = this.translateToUsrLang('Compatibility Mode');
     return html`
