@@ -207,6 +207,24 @@ const devices = {
 
   },
 
+   "bluray": {
+
+    "meta": {
+      "friendlyName": "Panasonic bluray",
+      "supported": true,
+    },
+
+    "noCategory": {
+      "panasonic-bluray": {
+        "supported": true,
+        "friendlyName": "Panasonic bluray - 1.76 patched",
+        "defaultRemoteStyle": "AR3",
+        "hdmiInputs": 0,
+      },
+    }
+
+  },
+
 
   "chromecast": {
 
