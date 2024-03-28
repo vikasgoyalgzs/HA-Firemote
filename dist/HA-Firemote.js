@@ -4756,7 +4756,7 @@ class FiremoteCard extends LitElement {
     // Up Button
     if(clicked.target.id == 'up-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'UP', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'UP', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
@@ -4780,7 +4780,7 @@ class FiremoteCard extends LitElement {
     // Left Button
     if(clicked.target.id == 'left-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'LEFT', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'LEFT', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
@@ -4804,7 +4804,7 @@ class FiremoteCard extends LitElement {
     // Center Button
     if(clicked.target.id == 'center-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'SELECT', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'SELECT', num_repeats:1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
@@ -4836,7 +4836,7 @@ class FiremoteCard extends LitElement {
     // Right Button
     if(clicked.target.id == 'right-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'RIGHT', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'RIGHT', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
@@ -4860,7 +4860,7 @@ class FiremoteCard extends LitElement {
     // Down Button
     if(clicked.target.id == 'down-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'DOWN', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'DOWN', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(['apple-tv', 'roku'].includes(this._config.device_family)) {
@@ -4920,7 +4920,7 @@ class FiremoteCard extends LitElement {
     // Back Button
     if(clicked.target.id == 'back-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'RETURN', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'RETURN', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(this._config.device_family == 'apple-tv') {
@@ -4943,7 +4943,7 @@ class FiremoteCard extends LitElement {
     // Home Button
     if(clicked.target.id == 'home-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'TITLE', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'TITLE', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(this._config.device_family == 'apple-tv') {
@@ -4983,7 +4983,7 @@ class FiremoteCard extends LitElement {
     // Rewind Button
     if(clicked.target.id == 'rewind-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'REV', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'REV', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(this._config.device_family == 'apple-tv') {
@@ -5011,7 +5011,7 @@ class FiremoteCard extends LitElement {
       if(this._config.device_family === 'bluray') {
         var playpausecommand = 'PAUSE';
         if(this.hass.states[this._config.entity.replace('remote', 'media_player')].state=='paused'){ playpausecommand = 'PLAYBACK'; };
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: playpausecommand, num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: playpausecommand, num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(this._config.device_family == 'roku') {
@@ -5033,7 +5033,7 @@ class FiremoteCard extends LitElement {
     // Fast Forward Button
     if(clicked.target.id == 'fastforward-button') {
       if(this._config.device_family === 'bluray') {
-        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'REV', num_repeats: 0, delay_secs: 0, hold_secs: 0});
+        this.hass.callService("remote", "send_command", { entity_id: this._config['entity'], command: 'REV', num_repeats: 1, delay_secs: 0, hold_secs: 0});
         return;
       }
       if(this._config.device_family == 'apple-tv') {
