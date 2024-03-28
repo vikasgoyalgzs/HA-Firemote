@@ -673,6 +673,7 @@ class FiremoteCard extends LitElement {
           }
 
           .apple-remote-body {
+            margin-top: 12px;
             background: #b5b5b5;
             background: linear-gradient(0deg, rgba(147,148,150,1) 0%, rgba(207,211,213,1) 100%);
             border: solid #d1d1d1 calc(var(--sz) * 0.05rem);
